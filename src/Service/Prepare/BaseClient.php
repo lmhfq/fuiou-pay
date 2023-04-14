@@ -47,12 +47,6 @@ class BaseClient
      * 正式环境API地址
      */
     public const API_HOST_PRO_XS = 'https://aipay-xs.fuioupay.com';
-
-    /**
-     * @var bool
-     */
-    public $debug = false;
-
     /**
      * @var Config
      */
@@ -69,9 +63,6 @@ class BaseClient
     {
 
         $config = $container['config'] ?? [];
-        if ($config->get('environment') === 'dev') {
-            $this->debug = true;
-        }
         $this->config = $config;
     }
 
@@ -107,12 +98,20 @@ class BaseClient
             ],
             'body' => json_encode($params, JSON_UNESCAPED_UNICODE)
         ];
-        $options = array_merge($defaultOption, $options);
-        $response = $this->getHttp()->request($api, $method, $options);
-        if ($response->getStatusCode() !== 200) {
-            throw new HttpException('[富友支付异常]请求异常: HTTP状态码 ' . $response->getStatusCode());
+        if (strtoupper($method) === 'POST') {
+            $options = array_merge($defaultOption, $options);
+            $response = $this->getHttp()->request($api, $method, $options);
+            if ($response->getStatusCode() !== 200) {
+                throw new HttpException('[富友支付异常]请求异常: HTTP状态码 ' . $response->getStatusCode());
+            }
+            return $this->castResponse($response);
+        } else {
+            $query = http_build_query($params);
+            $response = [
+                'redirect_url' => $api . $query,
+            ];
+            return new Collection($response);
         }
-        return $this->castResponse($response);
     }
 
     /**
@@ -122,7 +121,7 @@ class BaseClient
     {
         // 加载配置数据
         return array_merge(
-            $this->config->only(['mchnt_cd', 'ins_cd', 'mchnt_key'])->toArray(),
+            $this->config->only(['mchnt_cd', 'mchnt_key'])->toArray(),
             [
                 'version' => self::API_VERSION,
                 'random_str' => uniqid()
@@ -153,7 +152,7 @@ class BaseClient
      */
     public function getApi(string $api, bool $isXs = false): string
     {
-        if ($this->debug) {
+        if ($this->config->get('debug')) {
             return self::API_HOST_DEV . $api;
         } else {
             return $isXs ? self::API_HOST_PRO . $api : self::API_HOST_PRO_XS . $api;
@@ -169,6 +168,7 @@ class BaseClient
         if (isset($response['result_code']) && ResultCode::SUCCESS === $response['result_code']) {
             return;
         }
+
         $message = $response['result_msg'] ?? '系统错误';
         $code = $response['result_code'] ?? '';
         throw new FuiouPayException('[富友支付异常]异常代码：' . $code . ' 异常信息：' . $message, $code);

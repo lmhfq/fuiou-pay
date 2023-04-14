@@ -41,11 +41,6 @@ class BaseClient
     public $REFUND_API_HOST = 'https://refund-transfer.fuioupay.com';
 
     /**
-     * @var bool
-     */
-    public $debug = false;
-
-    /**
      * @var Config
      */
     protected $config;
@@ -58,11 +53,7 @@ class BaseClient
      */
     public function __construct(ServiceContainer $container)
     {
-
         $config = $container['config'] ?? [];
-        if ($config->get('environment') === 'dev') {
-            $this->debug = true;
-        }
         $this->config = $config;
     }
 
@@ -134,7 +125,7 @@ class BaseClient
     public function getApi(string $api, $type): string
     {
         $constantType = strtoupper($type) . '_API_HOST';
-        if ($this->debug) {
+        if ($this->config->get('debug')) {
             $constantType .= '_DEV';
         }
         return $this->{$constantType} . $api;
@@ -142,6 +133,7 @@ class BaseClient
 
     /**
      * @throws FuiouPayException
+     * @throws InvalidArgumentException
      * @author lmh
      */
     public function checkResult(Collection $response)

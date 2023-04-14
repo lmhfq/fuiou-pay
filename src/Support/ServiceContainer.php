@@ -97,7 +97,7 @@ class ServiceContainer extends Container
             'http' => [
                 'timeout' => 60.0,
             ],
-            'environment' => '',
+            'debug' => true,
             'mchnt_cd' => '',
             'ins_cd' => '',
             'mchnt_key' => '',
