@@ -5,6 +5,8 @@ namespace Lmh\Fuiou\Service\Cashier;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
+use Lmh\Fuiou\Constant\RespCode;
+use Lmh\Fuiou\Exceptions\FuiouPayException;
 use Lmh\Fuiou\Exceptions\HttpException;
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
 use Lmh\Fuiou\Support\Config;
@@ -25,26 +27,24 @@ class BaseClient
     /**
      * API版本
      */
-    const API_VERSION = '3.0.0';
+    public const API_VERSION = '1.0.0';
     /**
      * 测试环境API地址
      */
-    const API_HOST_DEV = 'https://aggpc-test.fuioupay.com';
+    public $TRANSACTION_API_HOST_DEV = 'https://aggpc-test.fuioupay.com';
+    public $REFUND_API_HOST_DEV = 'https://refund-transfer-test.fuioupay.com';
 
     /**
      * 正式环境API地址
      */
-    const API_HOST_PRO = 'https://aggpc.fuioupay.com';
+    public $TRANSACTION_API_HOST = 'https://aggpc.fuioupay.com';
+    public $REFUND_API_HOST = 'https://refund-transfer.fuioupay.com';
 
     /**
      * @var bool
      */
     public $debug = false;
 
-    /**
-     * @var string
-     */
-    protected $notifyUrl;
     /**
      * @var Config
      */
@@ -73,6 +73,7 @@ class BaseClient
      * @return Collection
      * @throws GuzzleException
      * @throws HttpException
+     * @throws InvalidArgumentException
      * @author lmh
      */
     public function request(string $api, array $params, string $method = 'post'): Collection
@@ -90,7 +91,6 @@ class BaseClient
             ],
             'body' => json_encode($body, JSON_UNESCAPED_UNICODE)
         ];
-
         $response = $this->getHttp()->request($api, $method, $options);
         if ($response->getStatusCode() !== 200) {
             throw new HttpException('[富友支付异常]请求异常: HTTP状态码 ' . $response->getStatusCode());
@@ -122,7 +122,6 @@ class BaseClient
         if (is_null($this->http)) {
             $this->http = new Http($this->config->get('http'));
         }
-
         return $this->http;
     }
 
@@ -132,12 +131,30 @@ class BaseClient
      * @param string $api
      * @return string
      */
-    public function getApi(string $api): string
+    public function getApi(string $api, $type): string
     {
+        $constantType = strtoupper($type) . '_API_HOST';
         if ($this->debug) {
-            return self::API_HOST_DEV . $api;
-        } else {
-            return self::API_HOST_PRO;
+            $constantType .= '_DEV';
         }
+        return $this->{$constantType} . $api;
+    }
+
+    /**
+     * @throws FuiouPayException
+     * @author lmh
+     */
+    public function checkResult(Collection $response)
+    {
+        //验证
+        if (isset($response['resp_code']) && RespCode::SUCCESS === $response['resp_code']) {
+            //得到响应，解密数据
+            $decrypted = RsaUtil::privateDecrypt($response->get("message"), $this->config->get('private_key'));
+            $response->offsetSet('message_data', json_decode($decrypted, true));
+            return;
+        }
+        $message = $response['resp_desc'] ?? '系统错误';
+        $code = $response['resp_code'] ?? '';
+        throw new FuiouPayException('[富友支付异常]异常代码：' . $code . ' 异常信息：' . $message, $code);
     }
 }

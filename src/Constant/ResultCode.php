@@ -14,6 +14,7 @@ class ResultCode
     public const SUCCESS = '000000';
 
 
+
     /**
      * 金额超限不允许退款
      */

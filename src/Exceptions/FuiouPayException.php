@@ -7,10 +7,20 @@ use Throwable;
 
 class FuiouPayException extends \Exception
 {
-    private $errCode;
-    public function __construct($message = '', $errCode = '', $code = 0, Throwable $previous = null)
+    private $errorCode;
+
+    public function __construct($message = '', $errorCode = '', $code = 0, Throwable $previous = null)
     {
-        $this->errCode = $errCode;
+        $this->errorCode = $errorCode;
         parent::__construct($message, $code, $previous);
     }
+
+    /**
+     * @return int|string
+     */
+    public function getErrorCode()
+    {
+        return $this->errorCode;
+    }
+
 }

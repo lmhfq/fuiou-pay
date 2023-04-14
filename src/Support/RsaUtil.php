@@ -36,20 +36,32 @@ class RsaUtil
     }
 
     /**
-     * @param $data
+     * @param string $source
      * @param $privateKey
      * @return string
      * @throws InvalidArgumentException
      * @author lmh
      */
-    public static function privateDecrypt($data, $privateKey): string
+    public static function privateDecrypt(string $source, $privateKey): string
     {
-        $decrypted = '';
-        $data = base64_decode($data);
-        if ($privateKey) {
+        if (!$privateKey) {
             throw new InvalidArgumentException('签名证书配置错误');
         }
-        openssl_private_decrypt(base64_decode($data), $decrypted, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
-        return $decrypted;
+        $source = base64_decode($source);
+        if (strpos($privateKey, '-----') === false) {
+            $privateKey = "-----BEGIN PRIVATE KEY-----\n" .
+                wordwrap($privateKey, 64, "\n", true) .
+                "\n-----END PRIVATE KEY-----";
+        }
+        $maxlength = 128;
+        $output = '';
+        while ($source) {
+            $input = substr($source, 0, $maxlength);
+            $source = substr($source, $maxlength);
+            $decrypted = '';
+            openssl_private_decrypt($input, $decrypted, $privateKey);
+            $output .= $decrypted;
+        }
+        return $output;
     }
 }

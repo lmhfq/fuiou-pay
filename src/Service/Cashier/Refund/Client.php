@@ -3,16 +3,14 @@ declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: lmh <lmh@weiyian.com>
- * Date: 2023/4/14
- * Time: 10:26
+ * Date: 2023/4/13
+ * Time: 17:12
  */
 
-namespace Lmh\Fuiou\Service\Cashier\Transaction;
-
+namespace Lmh\Fuiou\Service\Cashier\Refund;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Lmh\Fuiou\Constant\PayType;
 use Lmh\Fuiou\Exceptions\FuiouPayException;
 use Lmh\Fuiou\Exceptions\HttpException;
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
@@ -20,23 +18,8 @@ use Lmh\Fuiou\Service\Cashier\BaseClient;
 
 class Client extends BaseClient
 {
-
     /**
-     * @throws FuiouPayException
-     * @author lmh
-     */
-    public function pay(array $params): Collection
-    {
-        $url = $this->getApi('/token/order.fuiou','Transaction');
-        $baseParams = $this->baseParams();
-        $params = array_merge($params, $baseParams);
-        $params['pay_type'] = $params['pay_type'] ?? PayType::ALI_PAY_JL;
-        $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
-        return $response;
-    }
-
-    /**
+     * 订单查询接口
      * @param array $params
      * @return Collection
      * @throws FuiouPayException
@@ -45,13 +28,13 @@ class Client extends BaseClient
      * @throws InvalidArgumentException
      * @author lmh
      */
-    public function query(array $params): Collection
+    public function create(array $params): Collection
     {
-        $url = $this->getApi('/aggwapSynQry.fuiou','Transaction');
+        $url = $this->getApi('/refund_transfer/aggwapRefund.fuiou', 'Refund');
         $baseParams = $this->baseParams();
         $params = array_merge($params, $baseParams);
         $response = $this->request($url, $params, 'POST');
+
         $this->checkResult($response);
-        return $response;
     }
 }

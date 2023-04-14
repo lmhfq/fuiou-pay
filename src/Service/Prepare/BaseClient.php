@@ -5,6 +5,8 @@ namespace Lmh\Fuiou\Service\Prepare;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
+use Lmh\Fuiou\Constant\ResultCode;
+use Lmh\Fuiou\Exceptions\FuiouPayException;
 use Lmh\Fuiou\Exceptions\HttpException;
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
 use Lmh\Fuiou\Support\Config;
@@ -24,37 +26,33 @@ class BaseClient
     /**
      * API版本
      */
-    const API_VERSION = '1';
+    public const API_VERSION = '1';
 
     /**
      * 终端号(没有真实终端号统一填88888888)
      */
-    const TERM_ID = '88888888';
+    public const TERM_ID = '88888888';
 
     /**
      * 测试环境API地址
      */
-    const API_HOST_DEV = 'https://aipaytest.fuioupay.com';
+    public const API_HOST_DEV = 'https://aipaytest.fuioupay.com';
 
     /**
      * 正式环境API地址
      */
-    const API_HOST_PRO = 'https://aipay.fuioupay.com';
+    public const API_HOST_PRO = 'https://aipay.fuioupay.com';
 
     /**
      * 正式环境API地址
      */
-    const API_HOST_PRO_XS = 'https://aipay-xs.fuioupay.com';
+    public const API_HOST_PRO_XS = 'https://aipay-xs.fuioupay.com';
 
     /**
      * @var bool
      */
     public $debug = false;
 
-    /**
-     * @var string
-     */
-    protected $notifyUrl;
     /**
      * @var Config
      */
@@ -140,7 +138,7 @@ class BaseClient
     public function getHttp(): Http
     {
         if (is_null($this->http)) {
-            $this->http = new Http( $this->config->get('http'));
+            $this->http = new Http($this->config->get('http'));
         }
 
         return $this->http;
@@ -160,5 +158,19 @@ class BaseClient
         } else {
             return $isXs ? self::API_HOST_PRO . $api : self::API_HOST_PRO_XS . $api;
         }
+    }
+
+    /**
+     * @throws FuiouPayException
+     * @author lmh
+     */
+    public function checkResult(Collection $response)
+    {
+        if (isset($response['result_code']) && ResultCode::SUCCESS === $response['result_code']) {
+            return;
+        }
+        $message = $response['result_msg'] ?? '系统错误';
+        $code = $response['result_code'] ?? '';
+        throw new FuiouPayException('[富友支付异常]异常代码：' . $code . ' 异常信息：' . $message, $code);
     }
 }
