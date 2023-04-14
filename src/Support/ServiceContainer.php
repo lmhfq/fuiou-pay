@@ -100,6 +100,7 @@ class ServiceContainer extends Container
             'debug' => true,
             'mchnt_cd' => '',
             'ins_cd' => '',
+            'sub_appid' => '',
             'mchnt_key' => '',
             'private_key' => '',
             'public_key' => '',
