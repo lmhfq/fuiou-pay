@@ -1,13 +1,12 @@
 {
-    "name": "lennan747/fuiou-pay-sdk",
+    "name": "lmh/fuiou-pay",
     "version": "1.0.0",
-    "description": "富友支付 API SKD",
-    "homepage": "https://github.com/lennan747",
+    "description": "富友支付 富友H5收银台，富友PHP",
     "license": "MIT",
     "authors": [
         {
-            "name": "lennan747",
-            "email": "lennan747@gamil.com"
+            "name": "lmh",
+            "email": "lmh@weiyian.com"
         }
     ],
     "require": {
