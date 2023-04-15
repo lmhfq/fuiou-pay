@@ -43,4 +43,29 @@ class Client extends BaseClient
         $this->checkResult($response);
         return $response;
     }
+
+    /**
+     * @param array $params
+     * @return Collection
+     * @throws FuiouPayException
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @author lmh
+     */
+    public function query(array $params): Collection
+    {
+        $url = $this->getApi('/aggregatePay/refundQuery');
+        if (empty($params['term_id'])) {
+            $params['term_id'] = self::TERM_ID;
+        }
+        $baseParams = $this->baseParams();
+        $params = array_merge($params, $baseParams);
+        $params['sign_joint'] = [
+            'mchnt_cd', 'refund_order_no', 'term_id', 'random_str', 'version', 'mchnt_key'
+        ];
+        $response = $this->request($url, $params, 'POST');
+        $this->checkResult($response);
+        return $response;
+    }
 }

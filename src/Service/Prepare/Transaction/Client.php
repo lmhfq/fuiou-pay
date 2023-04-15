@@ -47,8 +47,8 @@ class Client extends BaseClient
         ];
         $params['order_type'] = $params['order_type'] ?? OrderType::WECHAT;
         // 请求参数
-        if ($params['order_type'] == OrderType::WECHAT) {
-            $params['sub_appid'] = $this->config->get('wechat_appid');
+        if ($params['order_type'] == OrderType::WECHAT && empty($params['trade_type'])) {
+            $params['sub_appid'] = $this->config->get('sub_appid');
         }
         $response = $this->request($url, $params, 'POST');
         $this->checkResult($response);
@@ -84,9 +84,9 @@ class Client extends BaseClient
         $params['sign_joint'] = [
             'mchnt_cd', 'trade_type', 'order_amt', 'mchnt_order_no', 'txn_begin_ts', 'goods_des', 'term_id', 'term_ip', 'notify_url', 'random_str', 'version', 'mchnt_key'
         ];
-        $params['trade_type']  = $params['trade_type'] ?? TradeType::JSAPI;
+        $params['trade_type'] = $params['trade_type'] ?? TradeType::JSAPI;
         // 请求参数
-        if ($params['order_type'] == OrderType::WECHAT && !empty($params['trade_type'])) {
+        if ($params['order_type'] == OrderType::WECHAT) {
             $params['sub_appid'] = $this->config->get('sub_appid');
         }
         $response = $this->request($url, $params, 'POST');
