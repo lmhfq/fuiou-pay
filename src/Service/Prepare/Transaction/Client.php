@@ -86,7 +86,7 @@ class Client extends BaseClient
         ];
         $params['trade_type'] = $params['trade_type'] ?? TradeType::JSAPI;
         // 请求参数
-        if ($params['order_type'] == OrderType::WECHAT) {
+        if ($params['trade_type'] == TradeType::JSAPI) {
             $params['sub_appid'] = $this->config->get('sub_appid');
         }
         $response = $this->request($url, $params, 'POST');
