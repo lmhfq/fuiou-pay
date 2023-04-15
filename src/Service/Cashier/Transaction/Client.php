@@ -22,7 +22,12 @@ class Client extends BaseClient
 {
 
     /**
+     * @param array $params
+     * @return Collection
      * @throws FuiouPayException
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
      * @author lmh
      */
     public function pay(array $params): Collection

@@ -12,6 +12,9 @@ namespace Lmh\Fuiou\Constant;
 class PayType
 {
     public const ALI_PAY_JL = 'AliPayJL';
+    /**
+     * 微信公众号
+     */
     public const WE_JSAPI_PAY = 'WeJsapiPay';
     public const WE_APPLET_PAY = 'WeAppletPay';
 }
