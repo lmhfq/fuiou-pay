@@ -147,6 +147,6 @@ class BaseClient
         }
         $message = $response['resp_desc'] ?? '系统错误';
         $code = $response['resp_code'] ?? '';
-        throw new FuiouPayException('[富友支付异常]异常代码：' . $code . ' 异常信息：' . $message, $code);
+        throw new FuiouPayException('[支付异常]异常代码：' . $code . ' 异常信息：' . $message, $code);
     }
 }
