@@ -118,7 +118,15 @@ class Client extends BaseClient
         return $response;
     }
 
-
+    /**
+     * 服务商模式获取 openid
+     * @param array $params
+     * @return Collection
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @author lmh
+     */
     public function getOpenid(array $params): Collection
     {
         $url = $this->getApi('/aggregatePay/auth2Openid');
