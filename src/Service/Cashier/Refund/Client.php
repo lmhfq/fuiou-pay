@@ -35,6 +35,6 @@ class Client extends BaseClient
         $params = array_merge($params, $baseParams);
         $response = $this->request($url, $params, 'POST');
 
-        $this->checkResult($response);
+
     }
 }

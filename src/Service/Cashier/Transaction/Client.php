@@ -37,7 +37,7 @@ class Client extends BaseClient
         $params = array_merge($params, $baseParams);
         $params['pay_type'] = $params['pay_type'] ?? PayType::ALI_PAY_JL;
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
+
         return $response;
     }
 
@@ -56,7 +56,7 @@ class Client extends BaseClient
         $baseParams = $this->baseParams();
         $params = array_merge($params, $baseParams);
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
+
         return $response;
     }
 }

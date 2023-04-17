@@ -40,7 +40,7 @@ class Client extends BaseClient
             'mchnt_cd', 'order_type', 'mchnt_order_no', 'refund_order_no', 'total_amt', 'refund_amt', 'term_id', 'random_str', 'version', 'mchnt_key'
         ];
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
+
         return $response;
     }
 
@@ -65,7 +65,7 @@ class Client extends BaseClient
             'mchnt_cd', 'refund_order_no', 'term_id', 'random_str', 'version', 'mchnt_key'
         ];
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
+
         return $response;
     }
 }

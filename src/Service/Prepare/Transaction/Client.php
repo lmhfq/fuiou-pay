@@ -51,7 +51,7 @@ class Client extends BaseClient
             $params['sub_appid'] = $this->config->get('sub_appid');
         }
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
+
         return $response;
     }
 
@@ -90,7 +90,6 @@ class Client extends BaseClient
             $params['sub_appid'] = $this->config->get('sub_appid');
         }
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
         return $response;
     }
 
