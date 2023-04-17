@@ -34,7 +34,23 @@ class Client extends BaseClient
         $baseParams = $this->baseParams();
         $params = array_merge($params, $baseParams);
         $response = $this->request($url, $params, 'POST');
+        return $response;
+    }
 
-
+    /**
+     * @param array $params
+     * @return Collection
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @author lmh
+     */
+    public function refundQuery(array $params): Collection
+    {
+        $url = $this->getApi('/refund_transfer/aggwapRefundQuery.fuiou', 'Refund');
+        $baseParams = $this->baseParams();
+        $params = array_merge($params, $baseParams);
+        $response = $this->request($url, $params, 'POST');
+        return $response;
     }
 }

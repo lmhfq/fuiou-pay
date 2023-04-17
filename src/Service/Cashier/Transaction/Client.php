@@ -24,7 +24,6 @@ class Client extends BaseClient
     /**
      * @param array $params
      * @return Collection
-     * @throws FuiouPayException
      * @throws GuzzleException
      * @throws HttpException
      * @throws InvalidArgumentException
@@ -37,7 +36,6 @@ class Client extends BaseClient
         $params = array_merge($params, $baseParams);
         $params['pay_type'] = $params['pay_type'] ?? PayType::ALI_PAY_JL;
         $response = $this->request($url, $params, 'POST');
-
         return $response;
     }
 
@@ -56,7 +54,6 @@ class Client extends BaseClient
         $baseParams = $this->baseParams();
         $params = array_merge($params, $baseParams);
         $response = $this->request($url, $params, 'POST');
-
         return $response;
     }
 }

@@ -51,7 +51,6 @@ class Client extends BaseClient
             $params['sub_appid'] = $this->config->get('sub_appid');
         }
         $response = $this->request($url, $params, 'POST');
-
         return $response;
     }
 
@@ -116,7 +115,20 @@ class Client extends BaseClient
             'mchnt_cd', 'order_type', 'mchnt_order_no', 'term_id', 'random_str', 'version', 'mchnt_key'
         ];
         $response = $this->request($url, $params, 'POST');
-        $this->checkResult($response);
         return $response;
     }
+
+
+    public function getOpenid(array $params): Collection
+    {
+        $url = $this->getApi('/aggregatePay/auth2Openid');
+        $baseParams = $this->baseParams();
+        $params = array_merge($params, $baseParams);
+        $params['sign_joint'] = [
+            'mchnt_cd', 'redirect_uri', 'mchnt_key'
+        ];
+        $response = $this->request($url, $params, 'GET');
+        return $response;
+    }
+
 }

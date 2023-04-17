@@ -108,7 +108,7 @@ class BaseClient
         } else {
             $query = http_build_query($params);
             $response = [
-                'redirect_url' => $api . $query,
+                'redirect_url' => $api . '?' . $query,
             ];
             return new Collection($response);
         }
