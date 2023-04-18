@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Lmh\Fuiou\Exceptions\FuiouPayException;
 use Lmh\Fuiou\Exceptions\HttpException;
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
-use Lmh\Fuiou\Service\Cashier\BaseClient;
+use Lmh\Fuiou\Service\Wap\BaseClient;
 
 class Client extends BaseClient
 {

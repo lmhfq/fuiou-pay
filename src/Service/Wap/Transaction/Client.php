@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 10:26
  */
 
-namespace Lmh\Fuiou\Service\Cashier\Transaction;
+namespace Lmh\Fuiou\Service\Wap\Transaction;
 
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -16,7 +16,7 @@ use Lmh\Fuiou\Constant\PayType;
 use Lmh\Fuiou\Exceptions\FuiouPayException;
 use Lmh\Fuiou\Exceptions\HttpException;
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
-use Lmh\Fuiou\Service\Cashier\BaseClient;
+use Lmh\Fuiou\Service\Wap\BaseClient;
 
 class Client extends BaseClient
 {

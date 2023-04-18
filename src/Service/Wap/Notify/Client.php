@@ -1,9 +1,9 @@
 <?php
 
-namespace Lmh\Fuiou\Service\Cashier\Notify;
+namespace Lmh\Fuiou\Service\Wap\Notify;
 
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
-use Lmh\Fuiou\Service\Cashier\BaseClient;
+use Lmh\Fuiou\Service\Wap\BaseClient;
 use Lmh\Fuiou\Support\RsaUtil;
 
 class Client extends BaseClient

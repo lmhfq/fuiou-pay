@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 10:25
  */
 
-namespace Lmh\Fuiou\Service\Cashier;
+namespace Lmh\Fuiou\Service\Wap;
 
 use Lmh\Fuiou\Support\ServiceContainer;
 

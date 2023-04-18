@@ -1,6 +1,6 @@
 <?php
 
-namespace Lmh\Fuiou\Service\Cashier\Notify;
+namespace Lmh\Fuiou\Service\Wap\Notify;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

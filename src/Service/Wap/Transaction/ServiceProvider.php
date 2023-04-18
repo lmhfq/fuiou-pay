@@ -3,24 +3,21 @@ declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: lmh <lmh@weiyian.com>
- * Date: 2023/4/13
- * Time: 17:12
+ * Date: 2023/4/14
+ * Time: 10:26
  */
 
-namespace Lmh\Fuiou\Service\Cashier\Refund;
+namespace Lmh\Fuiou\Service\Wap\Transaction;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 class ServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @param Container $pimple
-     * @author lmh
-     */
+
     public function register(Container $pimple)
     {
-        $pimple['refund'] = function ($pimple) {
+        $pimple['transaction'] = function ($pimple) {
             return new Client($pimple);
         };
     }

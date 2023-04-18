@@ -1,6 +1,6 @@
 <?php
 
-namespace Lmh\Fuiou\Service\Cashier;
+namespace Lmh\Fuiou\Service\Wap;
 
 
 use GuzzleHttp\Exception\GuzzleException;

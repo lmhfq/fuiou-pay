@@ -7,14 +7,14 @@ declare(strict_types=1);
  * Time: 17:12
  */
 
-namespace Lmh\Fuiou\Service\Cashier\Refund;
+namespace Lmh\Fuiou\Service\Wap\Refund;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
 use Lmh\Fuiou\Exceptions\FuiouPayException;
 use Lmh\Fuiou\Exceptions\HttpException;
 use Lmh\Fuiou\Exceptions\InvalidArgumentException;
-use Lmh\Fuiou\Service\Cashier\BaseClient;
+use Lmh\Fuiou\Service\Wap\BaseClient;
 
 class Client extends BaseClient
 {

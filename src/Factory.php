@@ -12,8 +12,9 @@ use Illuminate\Support\Str;
  * @package Lmh\Cpcn
  * User: lmh <lmh@weiyian.com>
  * Date: 2022/1/22
- * @method static Service\Cashier\Application    cashier(array $config)
+ * @method static Service\Wap\Application    wap(array $config)
  * @method static Service\Prepare\Application    prepare(array $config)
+ * @method static Service\Pos\Application    pos(array $config)
  */
 class Factory
 {
