@@ -35,6 +35,7 @@ class RsaUtil
         return base64_encode($output);
     }
 
+
     /**
      * @param string $source
      * @param $privateKey
@@ -53,7 +54,9 @@ class RsaUtil
                 wordwrap($privateKey, 64, "\n", true) .
                 "\n-----END PRIVATE KEY-----";
         }
-        $maxlength = 128;
+        $iD = openssl_get_privatekey($privateKey);
+        $maxlength = openssl_pkey_get_details($iD)['bits'] ?? 0;
+        $maxlength = $maxlength / 8;
         $output = '';
         while ($source) {
             $input = substr($source, 0, $maxlength);

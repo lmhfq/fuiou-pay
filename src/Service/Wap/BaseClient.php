@@ -26,7 +26,7 @@ class BaseClient
     /**
      * API版本
      */
-    public const API_VERSION = '3.0.0';
+    public const API_VERSION = '1.0.0';
     /**
      * 测试环境API地址
      */
