@@ -84,7 +84,7 @@ class BaseClient
         ];
         $response = $this->getHttp()->request($api, $method, $options);
         if ($response->getStatusCode() !== 200) {
-            throw new HttpException('[富友支付异常]请求异常: HTTP状态码 ' . $response->getStatusCode());
+            throw new HttpException('[富友支付异常]请求异常: 状态码 ' . $response->getStatusCode());
         }
         return $this->castResponse($response);
     }
