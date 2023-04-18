@@ -1,24 +1,18 @@
 <?php
+declare(strict_types=1);
+/**
+ * Created by PhpStorm.
+ * User: lmh <lmh@weiyian.com>
+ * Date: 2023/4/18
+ * Time: 15:23
+ */
 
-namespace Lmh\Fuiou\Service\Cashier;
+namespace Lmh\Fuiou\Service\Pos;
 
-
-use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Collection;
-use Lmh\Fuiou\Constant\RespCode;
-use Lmh\Fuiou\Exceptions\FuiouPayException;
-use Lmh\Fuiou\Exceptions\HttpException;
-use Lmh\Fuiou\Exceptions\InvalidArgumentException;
 use Lmh\Fuiou\Support\Config;
-use Lmh\Fuiou\Support\Http;
-use Lmh\Fuiou\Support\RsaUtil;
 use Lmh\Fuiou\Support\ServiceContainer;
 use Lmh\Fuiou\Traits\ResponseCastable;
 
-
-/**
- *
- */
 class BaseClient
 {
     use ResponseCastable;
@@ -26,7 +20,7 @@ class BaseClient
     /**
      * API版本
      */
-    public const API_VERSION = '3.0.0';
+    public const API_VERSION = '1.0.0';
     /**
      * 测试环境API地址
      */
