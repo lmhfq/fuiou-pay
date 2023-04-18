@@ -69,7 +69,7 @@ class BaseClient
      */
     public function request(string $api, array $params, string $method = 'post'): Collection
     {
-        $message = json_encode($params, JSON_UNESCAPED_UNICODE);
+        $message = json_encode($params);
         //明文json字符串进行加密
         $message = RsaUtil::publicEncrypt($message, $this->config->get('fuiou_public_key'));
         $body = [
@@ -80,7 +80,7 @@ class BaseClient
             'headers' => [
                 'Content-Type' => 'application/json'
             ],
-            'body' => json_encode($body, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($body)
         ];
         $response = $this->getHttp()->request($api, $method, $options);
         if ($response->getStatusCode() !== 200) {
